@@ -5,6 +5,7 @@ import com.mca.similarproductsapi.SimilarProductsApiApplication;
 import com.mca.similarproductsapi.infrastructure.dto.SimilarProducts;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -29,13 +30,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = {SimilarProductsApiApplication.class})
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
-class IntegrationTest {
+class SimilarProductsControllerTest {
 
   Gson gson = new Gson();
   @Autowired
   private MockMvc mockMvc;
-
-  private MockServerClient mockServerClient;
 
   private static ClientAndServer mockServer;
 
@@ -49,8 +48,9 @@ class IntegrationTest {
     mockServer.stop();
   }
 
-  void beforeAll() {
-    mockServerClient = new MockServerClient("localhost", 3001);
+  @BeforeEach
+  void beforeEach() {
+    MockServerClient mockServerClient = new MockServerClient("localhost", 3001);
     var headers = new Header("Content-Type", "application/json; charset=utf-8");
     // Similar ids
     mockServerClient
@@ -112,18 +112,12 @@ class IntegrationTest {
   }
 
   @ParameterizedTest
-  @CsvSource({
-      "1",
-      "2",
-      "3",
-      "4",
-      "5"
-  })
+  @CsvSource({"1","2","3","4","5"})
   void getSimilarProductsIntegrationTest(String productId) throws Exception {
-    beforeAll();
     String jsonResult = this.mockMvc.perform(get("/product/" + productId + "/similar")).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 
     SimilarProducts similarProducts = gson.fromJson(jsonResult, SimilarProducts.class);
+    // TODO: assert result is as expected
 
   }
 

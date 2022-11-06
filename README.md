@@ -9,3 +9,5 @@ Deployment instructions:
 4. docker-compose up
 
 Swagger available at http://localhost:8080/swagger-ui/index.html
+
+Note: all similar-products-api are sef-contained, no need to run other services in background
