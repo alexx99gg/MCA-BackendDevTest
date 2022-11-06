@@ -1,5 +1,14 @@
 version: "3.3"
 services:
+  similar-products-api:
+    container_name: similar-products-api
+    build:
+      context: similar-products-api
+      dockerfile: Dockerfile
+    image: similar-products-api:latest
+    ports:
+      - "5000:8080"
+
   influxdb:
     image: influxdb:1.8.2
     ports:
