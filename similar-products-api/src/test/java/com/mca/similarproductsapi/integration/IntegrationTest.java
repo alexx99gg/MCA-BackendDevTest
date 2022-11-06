@@ -2,11 +2,13 @@ package com.mca.similarproductsapi.integration;
 
 import com.google.gson.Gson;
 import com.mca.similarproductsapi.SimilarProductsApiApplication;
-import com.mca.similarproductsapi.infrastructure.response.SimilarProducts;
+import com.mca.similarproductsapi.infrastructure.dto.SimilarProducts;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockserver.client.server.MockServerClient;
 import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.Delay;
@@ -110,14 +112,19 @@ class IntegrationTest {
             .withDelay(Delay.milliseconds(50000)));
   }
 
-  @Test
-  void getSimilarProductsIntegrationTest() throws Exception {
+  @ParameterizedTest
+  @CsvSource({
+      "1",
+      "2",
+      "3",
+      "4",
+      "5"
+  })
+  void getSimilarProductsIntegrationTest(String productId) throws Exception {
     beforeAll();
-    System.out.println("Estoy aqui");
-    String jsonResult = this.mockMvc.perform(get("/product/1/similar")).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+    String jsonResult = this.mockMvc.perform(get("/product/" + productId + "/similar")).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 
     SimilarProducts similarProducts = gson.fromJson(jsonResult, SimilarProducts.class);
-
 
   }
 

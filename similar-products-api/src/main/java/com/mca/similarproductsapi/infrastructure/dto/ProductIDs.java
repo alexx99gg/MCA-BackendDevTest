@@ -1,4 +1,4 @@
-package com.mca.similarproductsapi.infrastructure.response;
+package com.mca.similarproductsapi.infrastructure.dto;
 
 import lombok.NoArgsConstructor;
 
