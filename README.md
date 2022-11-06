@@ -7,3 +7,5 @@ Deployment instructions:
 2. mvn package
 3. cd ..
 4. docker-compose up
+
+Swagger available at http://localhost:8080/swagger-ui/index.html
