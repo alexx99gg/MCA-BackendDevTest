@@ -5,6 +5,7 @@ import com.mca.similarproductsapi.application.SimilarProductIdRetriever;
 import com.mca.similarproductsapi.infrastructure.dto.ProductIDs;
 import com.mca.similarproductsapi.infrastructure.dto.SimilarProducts;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +25,7 @@ public class SimilarProductsController {
   SimilarProductIdRetriever similarProductIdRetrieverByHttp;
 
   @GetMapping(path = "/product/{productId}/similar")
+  @Cacheable("similar-products")
   public ResponseEntity<SimilarProducts> getSimilarById(@PathVariable Integer productId){
 
 
