@@ -40,7 +40,7 @@ class SimilarProductsControllerTest {
 
   @BeforeAll
   public static void startServer() {
-    mockServer = startClientAndServer(3001);
+    mockServer = startClientAndServer(3301);
   }
 
   @AfterAll
@@ -50,7 +50,7 @@ class SimilarProductsControllerTest {
 
   @BeforeEach
   void beforeEach() {
-    MockServerClient mockServerClient = new MockServerClient("localhost", 3001);
+    MockServerClient mockServerClient = new MockServerClient("localhost", 3301);
     var headers = new Header("Content-Type", "application/json; charset=utf-8");
     // Similar ids
     mockServerClient

@@ -2,12 +2,19 @@
 Technical test from MCA
 View exercise statement at: https://github.com/dalogax/backendDevTest
 
-Deployment instructions:
+Dockerized deployment instructions:
 1. cd similar-products-api
-2. mvn package
+2. mvn clean package
 3. cd ..
-4. docker-compose up
+4. docker-compose build
+5. docker-compose up
 
-Swagger available at http://localhost:8080/swagger-ui/index.html
+Api exposed at localhost:5000
 
-Note: all similar-products-api are sef-contained, no need to run other services in background
+Swagger available at http://localhost:5000/swagger-ui/index.html
+
+If you decide to not run the api without docker, the api will also be exposed at localhost:5000
+
+Note:
+All similar-products-api are sef-contained, no need to run other services in background.
+For testing, port 5500 and 3301 will be used.

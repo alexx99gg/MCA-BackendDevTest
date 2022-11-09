@@ -1,7 +1,15 @@
 spring:
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher
+  mvc.pathmatch.matching-strategy: ant_path_matcher
+server.port: 5000
 application:
   product-info-server-address: http://localhost:3001
   similar-products-ids-server-address: http://localhost:3001
+
+---
+
+spring:
+  config.activate.on-profile: docker
+server.port: 8080
+application:
+  product-info-server-address: http://simulado:80
+  similar-products-ids-server-address: http://simulado:80
