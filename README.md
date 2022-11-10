@@ -27,3 +27,5 @@ If you deployed the api without the docker-compose up:\
 Note:
 All similar-products-api are sef-contained, no need to run other services in background.
 For testing, port 5500 and 3301 will be used.
+
+This application uses Java 19 version.
