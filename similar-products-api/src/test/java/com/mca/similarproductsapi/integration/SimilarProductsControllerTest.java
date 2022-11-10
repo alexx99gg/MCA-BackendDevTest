@@ -3,7 +3,6 @@ package com.mca.similarproductsapi.integration;
 import com.google.gson.Gson;
 import com.mca.similarproductsapi.SimilarProductsApiApplication;
 import com.mca.similarproductsapi.infrastructure.dto.SimilarProducts;
-import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -24,8 +23,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Objects;
 
 import static org.mockserver.integration.ClientAndServer.startClientAndServer;
