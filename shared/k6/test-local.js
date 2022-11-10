@@ -45,7 +45,7 @@ export let options = {
   }
 };
 
-const host = "http://similar-products-api:8080";
+const host = "http://host.docker.internal:5000";
 
 export function normal() {
   http.get(host + "/product/1/similar");
