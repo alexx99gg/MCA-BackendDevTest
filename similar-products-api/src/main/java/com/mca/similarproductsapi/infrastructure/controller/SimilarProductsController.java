@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Objects;
+
 
 @RestController
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -26,18 +28,16 @@ public class SimilarProductsController {
 
   @GetMapping(path = "/product/{productId}/similar")
   @Cacheable("similar-products")
-  public ResponseEntity<SimilarProducts> getSimilarById(@PathVariable Integer productId){
-
-
+  public ResponseEntity<SimilarProducts> getSimilarById(@PathVariable Integer productId) {
+    // TODO: this logic should go to the application layer
     ProductIDs similarIds = similarProductIdRetrieverByHttp.doRetrieve(productId);
-
     SimilarProducts similarProducts = new SimilarProducts();
-
-    for (var similarId : similarIds){
-      similarProducts.add(productInfoRetriever.doRetrieve(similarId));
+    for (var similarId : similarIds) {
+      var productInfo = productInfoRetriever.doRetrieve(similarId);
+      if (Objects.nonNull(productInfo.getId())){
+        similarProducts.add(productInfo);
+      }
     }
-
     return ResponseEntity.ok().body(similarProducts);
   }
-
 }

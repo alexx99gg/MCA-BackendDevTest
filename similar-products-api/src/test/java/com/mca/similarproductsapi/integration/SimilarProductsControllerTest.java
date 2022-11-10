@@ -3,7 +3,9 @@ package com.mca.similarproductsapi.integration;
 import com.google.gson.Gson;
 import com.mca.similarproductsapi.SimilarProductsApiApplication;
 import com.mca.similarproductsapi.infrastructure.dto.SimilarProducts;
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,6 +21,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Objects;
 
 import static org.mockserver.integration.ClientAndServer.startClientAndServer;
 import static org.mockserver.model.HttpRequest.request;
@@ -112,13 +120,21 @@ class SimilarProductsControllerTest {
   }
 
   @ParameterizedTest
-  @CsvSource({"1","2","3","4","5"})
+  @CsvSource({"1","2","3","4","5","6"})
   void getSimilarProductsIntegrationTest(String productId) throws Exception {
     String jsonResult = this.mockMvc.perform(get("/product/" + productId + "/similar")).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 
     SimilarProducts similarProducts = gson.fromJson(jsonResult, SimilarProducts.class);
-    // TODO: assert result is as expected
 
+    SimilarProducts expectedSimilarProducts = getJsonFromFile("json/expectedProductSimilarResponse/" + productId + ".json", SimilarProducts.class);
+
+    Assertions.assertEquals(expectedSimilarProducts, similarProducts);
+
+  }
+
+  private  <T> T  getJsonFromFile(String file, Class<?> clazz){
+      Reader reader = new InputStreamReader(Objects.requireNonNull(SimilarProductsControllerTest.class.getClassLoader().getResourceAsStream(file)));
+      return (T) gson.fromJson(reader, clazz);
   }
 
 

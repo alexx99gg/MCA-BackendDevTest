@@ -1,0 +1,14 @@
+[
+  {
+    "id": "3",
+    "name": "Blazer",
+    "price": 29.99,
+    "availability": false
+  },
+  {
+    "id": "100",
+    "name": "Trousers",
+    "price": 49.99,
+    "availability": false
+  }
+]
