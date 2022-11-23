@@ -63,7 +63,7 @@ class SimilarProductsControllerTest {
         .respond(response().withHeaders(headers).withStatusCode(200).withBody("[2,3,4]"));
     mockServerClient
         .when(request().withMethod("GET").withPath("/product/2/similarids"))
-        .respond(response().withHeaders(headers).withStatusCode(200).withBody("[3,10,100]"));
+        .respond(response().withHeaders(headers).withStatusCode(200).withBody("[3,100,1000]"));
     mockServerClient
         .when(request().withMethod("GET").withPath("/product/3/similarids"))
         .respond(response().withHeaders(headers).withStatusCode(200).withBody("[100,1000,10000]"));
@@ -117,16 +117,33 @@ class SimilarProductsControllerTest {
   }
 
   @ParameterizedTest
-  @CsvSource({"1","2","3","4","5","6"})
-  void getSimilarProductsIntegrationTest(String productId) throws Exception {
-    String jsonResult = this.mockMvc.perform(get("/product/" + productId + "/similar")).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+  @CsvSource({"1", "2"})
+  void getSimilarProductsOkTest(String productId) throws Exception {
+    String jsonResult = this.mockMvc
+        .perform(get("/product/" + productId + "/similar"))
+        .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 
     SimilarProducts similarProducts = gson.fromJson(jsonResult, SimilarProducts.class);
 
     SimilarProducts expectedSimilarProducts = getJsonFromFile("json/expectedProductSimilarResponse/" + productId + ".json", SimilarProducts.class);
 
     Assertions.assertEquals(expectedSimilarProducts, similarProducts);
+  }
 
+  @ParameterizedTest
+  @CsvSource({"3", "4", "6"})
+  void getSimilarProductsNotFoundTest(String productId) throws Exception {
+    String jsonResult = this.mockMvc
+        .perform(get("/product/" + productId + "/similar"))
+        .andExpect(status().is(404)).andReturn().getResponse().getContentAsString();
+  }
+
+  @ParameterizedTest
+  @CsvSource({"5"})
+  void getSimilarProductsErrorTest(String productId) throws Exception {
+    String jsonResult = this.mockMvc
+        .perform(get("/product/" + productId + "/similar"))
+        .andExpect(status().is(500)).andReturn().getResponse().getContentAsString();
   }
 
   private  <T> T  getJsonFromFile(String file, Class<?> clazz){
