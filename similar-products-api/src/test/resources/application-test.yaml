@@ -2,3 +2,9 @@ server.port: 5500
 application:
   product-info-server-address: http://localhost:3301
   similar-products-ids-server-address: http://localhost:3301
+
+logging:
+  level:
+    org.springframework: DEBUG
+  file:
+    name: similar-products-api-test.log

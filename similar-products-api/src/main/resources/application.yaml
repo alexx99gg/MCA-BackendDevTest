@@ -4,7 +4,11 @@ server.port: 5000
 application:
   product-info-server-address: http://localhost:3001
   similar-products-ids-server-address: http://localhost:3001
-
+logging:
+  level:
+    org.springframework: ERROR
+  file:
+    name: similar-products-api.log
 ---
 
 spring:
